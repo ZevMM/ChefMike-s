@@ -15,7 +15,7 @@ const handleSignup = async (auth, email, password, setErr) => {
         setErr(error.message)
     })
 }
-
+const w = window.screen.width > 500 ? "60%" : "90%"
 function Login() {
     const [email, setEmail] = useState("")
     const [password, setPassword] = useState("")
@@ -23,7 +23,7 @@ function Login() {
     return (
         <div style={{background: "rgb(207 226 243)", width:"100%", height:"100%", display:"flex", justifyContent:"center", alignItems:"center", flexDirection:"column"}}>
             
-            <h1 style={{width:"40%", textAlign:"center"}}>Will you be the ultimate sandwich predictor? Prove your skills. Attain everlasting glory.</h1>
+            <h1 style={{width:w, textAlign:"center"}}>Will you be the ultimate sandwich predictor? Prove your skills. Attain everlasting glory.</h1>
             
             <input value={email} onChange={(e) => setEmail(e.target.value)} placeholder="Columbia/Barnard Email"/>
             <input value={password} onChange={(e) => setPassword(e.target.value)} placeholder="Password" />
