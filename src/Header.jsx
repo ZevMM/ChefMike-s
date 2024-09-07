@@ -1,5 +1,4 @@
 import mikelogo from './assets/mikelogo.png'
-
 function Header() {
     return (
       <div style={{width:"100%", height:"10%", background:"rgb(207 226 243)", display:"flex",
@@ -19,9 +18,9 @@ function Header() {
             </div>
             </div>
         </div>
-        <div style={{height:"100%"}}>
+        {window.screen.width > 600 ? <div style={{height:"100%"}}>
             <img src={mikelogo} alt="Logo" style={{maxHeight:"100%", maxWidth:"100%"}}/>
-        </div>
+        </div> : null}
         <div style={{ flexGrow:"1", flexBasis:"0", display:"flex", maxHeight:"100%", flexDirection:"row"}}>
             <div style={{display:"flex", justifyContent:"center", alignItems:"center"}}>
             <div style={{height:"50%"}}>

@@ -31,9 +31,11 @@ function Category({uid, data, cat, sammiches, setSammiches}) {
     
     }
 
+    const w = window.screen.width > 500 ? "400px" : "90%"
+
     return (
         <>
-        {popup ? (<div className="popup" style= {{ padding: "10px", display:"flex", flexDirection:"column", position:"absolute", zIndex:"5", width:"25%", height:"25%", background:"white", borderRadius:"5px", boxShadow:"0 0 5px #888888"}}
+        {popup ? (<div className="popup" style= {{ padding: "10px", display:"flex", flexDirection:"column", position:"absolute", zIndex:"5", width:w, height:"25%", background:"white", borderRadius:"5px", boxShadow:"0 0 5px #888888"}}
             onBlur={(e) => { if (e.relatedTarget && e.relatedTarget.className == "popup") {
                 return
             } setPopup(false)}} tabIndex={1}>
@@ -41,8 +43,10 @@ function Category({uid, data, cat, sammiches, setSammiches}) {
                 <input className="popup" type="number" min={0} value={wager} onChange={(e) => {setWager(e.target.value)
                     setPayout(fancyMath(e.target.value))
                 }}/>
-                <input className="popup" type = "button" value={`Bet to win $${payout}`}  style={{marginTop:"20px", fontSize:"15px", background:"black", color:"white", border:"none", borderRadius:"10px", padding:"10px"}}
+                <input className="popup" type = "button" value={`Bet to win $${payout.toFixed(2)}`}  style={{marginTop:"20px", fontSize:"15px", background:"black", color:"white", border:"none", borderRadius:"10px", padding:"10px"}}
                 onClick={() => LockIn()}/>
+                <input className="popup" type = "button" value={`Cancel`}  style={{marginTop:"20px", fontSize:"15px", border:"1px solid black", color:"black", border:"none", borderRadius:"10px", padding:"10px"}}
+                onClick={() => setPopup(false)}/>
             </div>) : null}
         <div style={{maxHeight:"100px", overflowY:"auto"}}>
 
@@ -61,17 +65,18 @@ function Category({uid, data, cat, sammiches, setSammiches}) {
                     return (
                         <tr>
                         <td> {s.name} </td>
-                        <td> {s.odds}% </td>
+                        <td> {s.odds.toFixed(2)}% </td>
                         <td> {s.wager} </td>
                         <td> {s.payout} </td>
                         <td> <input type="button" onClick={() => {setPopup(true)
                             setCur(i)
-                        }} value={"bet"} onBlur={
+                        }} value={"+"} onBlur={
                             (e) => {
                                 if (e.relatedTarget && e.relatedTarget.className == "popup") {
                                 return
                             } setPopup(false)}
                         }
+                        style={{background:"lightgreen", border:"none", borderRadius:"4px"}}
                         /> </td>
                         </tr>
                     )

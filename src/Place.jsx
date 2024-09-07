@@ -94,35 +94,35 @@ function Place({uid}) {
     
     
     }, [])
-
+    const w = window.screen.width > 500 ? "500px" : "100%"
     return (
         <>
             <div onClick={() => {
                 let copy = {...open}
                 copy.hot = !open.hot
                 setOpen(copy)
-            }} style={{fontWeight: "bold", background:"rgb(207 226 243)", width:"25%", textAlign:"center", fontSize:"20px", margin:"4px 0", color:"white"}}>
+            }} style={{fontWeight: "bold", background:"rgb(207 226 243)", width: w, textAlign:"center", fontSize:"20px", margin:"4px 0", color:"white"}}>
                 Hot Sammies</div>
             {open.hot ? <Category uid={uid} data={data} cat={"hot"} sammiches={sammiches} setSammiches={setSammiches}/> : null}
             <div onClick={() => {
                 let copy = {...open}
                 copy.cold = !open.cold
                 setOpen(copy)
-            }} style={{fontWeight: "bold", background:"rgb(207 226 243)", width:"25%", textAlign:"center", fontSize:"20px", margin:"4px 0", color:"white"}}>
+            }} style={{fontWeight: "bold", background:"rgb(207 226 243)", width:w, textAlign:"center", fontSize:"20px", margin:"4px 0", color:"white"}}>
                 Cold Sammies</div>
             {open.cold ? <Category uid={uid} data={data} cat= {"cold"} sammiches={csammiches} setSammiches={setCsammiches}/> : null}
             <div onClick={() => {
                 let copy = {...open}
                 copy.vhot = !open.vhot
                 setOpen(copy)
-            }} style={{fontWeight: "bold", background:"rgb(207 226 243)", width:"25%", textAlign:"center", fontSize:"20px", margin:"4px 0", color:"white"}}>
+            }} style={{fontWeight: "bold", background:"rgb(207 226 243)", width:w, textAlign:"center", fontSize:"20px", margin:"4px 0", color:"white"}}>
                 Icky Sammies</div>
             {open.vhot ? <Category uid={uid} data={data} cat={"vhot"} sammiches={vsammiches} setSammiches={setVsammiches}/> : null}
             <div onClick={() => {
                 let copy = {...open}
                 copy.vcold = !open.vcold
                 setOpen(copy)
-            }} style={{fontWeight: "bold", background:"rgb(207 226 243)", width:"25%", textAlign:"center", fontSize:"20px", margin:"4px 0", color:"white"}}>
+            }} style={{fontWeight: "bold", background:"rgb(207 226 243)", width:w, textAlign:"center", fontSize:"20px", margin:"4px 0", color:"white"}}>
                 Cold Icky Sammies</div>
             {open.vcold ? <Category uid={uid} data={data} cat={"vcold"} sammiches={cvsammiches} setSammiches={setCvsammiches}/> : null}
         </>
