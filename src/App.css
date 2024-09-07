@@ -1,0 +1,12 @@
+#root {
+  height: 100vh;
+  font-family:Arial, Helvetica, sans-serif;
+  font-family:'Segoe UI', Tahoma, Geneva, Verdana, sans-serif
+}
+
+
+th {
+  background: white;
+  position: sticky;
+  top: 0;
+}
