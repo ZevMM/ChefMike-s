@@ -8,6 +8,8 @@ function Header({uid}) {
     const [tokens, setTokens] = useState(0)
     const [modals, setModals] = useState({leaderboard: false, help: false, settings: false, profile: false})
 
+    //raise this up and pass it down to "Category"
+    //makes updating easier + can add warnings if bet is over balance
     useEffect(() => {
         let docRef = doc(db, `users/${uid}`)
         getDoc(docRef).then((docSnapshot) => {

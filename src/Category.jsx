@@ -11,7 +11,7 @@ import { oddsContext } from "./App"
                         }}type="number" min={0} />
 */
 
-function Category({uid, cat, sammiches, setSammiches}) {
+function Category({uid, cat, sammiches, setSammiches, tokens}) {
     const [popup, setPopup] = useState(false)
     const [cur, setCur] = useState(0)
     const [wager, setWager] = useState(0)
@@ -27,7 +27,7 @@ function Category({uid, cat, sammiches, setSammiches}) {
 
         let query = new URLSearchParams(JSON.stringify({uid: uid, cat:cat, cur:cur, wager: parseInt(wager), payout: parseInt(payout)})).toString()
         console.log(query.slice(0,-1))
-        fetch(`https://helloworld-pv6pdk53ha-uc.a.run.app?data=${query.slice(0,-1)}`, {
+        fetch(`https://placebet-pv6pdk53ha-uc.a.run.app?data=${query.slice(0,-1)}`, {
             method: 'GET',
             mode: 'no-cors'
         })

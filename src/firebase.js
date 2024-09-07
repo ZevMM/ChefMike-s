@@ -8,6 +8,7 @@ const firebaseConfig = {
     apiKey: "AIzaSyAeminA-Zh7gkfITn9EFzIwiGXusRBIHKQ",
     authDomain: "chef-mike-s-sportsbook-6a39a.firebaseapp.com",
     projectId: "chef-mike-s-sportsbook-6a39a",
+    databaseURL: "https://chef-mike-s-sportsbook-6a39a-default-rtdb.firebaseio.com",
     storageBucket: "chef-mike-s-sportsbook-6a39a.appspot.com",
     messagingSenderId: "924051932698",
     appId: "1:924051932698:web:8cd7df72d3a852633773a3",

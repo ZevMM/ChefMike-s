@@ -1,7 +1,8 @@
 import Place from "./Place"
-import { useState } from "react";
+import { useContext, useState } from "react";
 import { db } from "./firebase";
 import { auth } from "./firebase";
+import { oddsContext } from "./App";
 
 
 const prettydate = (n) => {
@@ -38,13 +39,15 @@ const goForward = (day, setDay) => {
 
 function Body({uid}) {
     const [day, setDay] = useState(1)
+    const marketOpen = useContext(oddsContext)
 
     return (
       <div style={{width:"100%", height:"90%", display:"flex", flexDirection:"column", alignItems:"center"}}>
         <h2>
           Predictions for {prettydate(day)}
         </h2>
-        <Place uid = {uid}/>
+        {marketOpen ? <Place uid = {uid}/> : "Market is closed"}
+        
       </div>
     )
   }

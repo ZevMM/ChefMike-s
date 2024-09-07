@@ -19,10 +19,20 @@ function App() {
     vcold: {0:1, 1:0, 2:4, 3:1, total: 6},
   })
 
+  const onLogin = async (uid) => {
+    console.log("running")
+    let query = new URLSearchParams(JSON.stringify({uid: uid})).toString()
+    fetch(`https://onlogin-pv6pdk53ha-uc.a.run.app?data=${query.slice(0,-1)}`, {
+      method: 'GET',
+      mode: 'no-cors',
+    })
+  }
+
   useEffect(()=>{
     onAuthStateChanged(auth, (user) => {
         if (user) {
           setUID(user.uid)
+          onLogin(user.uid)
         } else {
           setUID('')
         }
@@ -33,6 +43,7 @@ function App() {
   const oddsRef = ref(rtdb, '9-7-2024')
   onValue(oddsRef, (snapshot) => {
     setOdds(snapshot.val())
+    console.log("snapshot", snapshot.val())
   })}, [])
 
   return (
