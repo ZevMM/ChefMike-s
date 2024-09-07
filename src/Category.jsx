@@ -1,4 +1,6 @@
 import { useState } from "react"
+import { useContext } from "react"
+import { oddsContext } from "./App"
 
 
 /*
@@ -9,11 +11,12 @@ import { useState } from "react"
                         }}type="number" min={0} />
 */
 
-function Category({uid, data, cat, sammiches, setSammiches}) {
+function Category({uid, cat, sammiches, setSammiches}) {
     const [popup, setPopup] = useState(false)
     const [cur, setCur] = useState(0)
     const [wager, setWager] = useState(0)
     const [payout, setPayout] = useState(0)
+    const data = useContext(oddsContext)
 
     const fancyMath = (n) => {
         return (data[cat].total * n / data[cat][cur])
@@ -32,7 +35,6 @@ function Category({uid, data, cat, sammiches, setSammiches}) {
     }
 
     const w = window.screen.width > 500 ? "400px" : "90%"
-
     return (
         <>
         {popup ? (<div className="popup" style= {{ padding: "10px", display:"flex", flexDirection:"column", position:"absolute", zIndex:"5", width:w, height:"25%", background:"white", borderRadius:"5px", boxShadow:"0 0 5px #888888"}}
@@ -65,7 +67,7 @@ function Category({uid, data, cat, sammiches, setSammiches}) {
                     return (
                         <tr>
                         <td> {s.name} </td>
-                        <td> {s.odds.toFixed(2)}% </td>
+                        <td> {(data[cat][i] * 100 / data[cat].total).toFixed(2)}% </td>
                         <td> {s.wager} </td>
                         <td> {s.payout} </td>
                         <td> <input type="button" onClick={() => {setPopup(true)

@@ -5,9 +5,19 @@ import Body from './Body'
 import {auth} from './firebase'
 import Login from './Login'
 import { onAuthStateChanged } from 'firebase/auth'
+import { rtdb } from './firebase'
+import { ref, onValue } from "firebase/database";
+import { createContext } from 'react'
+
+export const oddsContext = createContext(null)
 
 function App() {
   const [uid, setUID] = useState('')
+  const [odds, setOdds] = useState({hot: {0:1, 1:0, 2:4, 3:1, total: 6},
+    cold: {0:1, 1:0, 2:4, 3:1, total: 6},
+    vhot: {0:1, 1:0, 2:4, 3:1, total: 6},
+    vcold: {0:1, 1:0, 2:4, 3:1, total: 6},
+  })
 
   useEffect(()=>{
     onAuthStateChanged(auth, (user) => {
@@ -19,13 +29,21 @@ function App() {
       });
   }, [])
 
+  useEffect( () => {
+  const oddsRef = ref(rtdb, '9-7-2024')
+  onValue(oddsRef, (snapshot) => {
+    setOdds(snapshot.val())
+  })}, [])
+
   return (
+    <oddsContext.Provider value={odds}>
     <div style={{width:"100%", height:"100%"}}>
       {uid ? 
-      <><Header />
+      <><Header uid={uid}/>
       <Body uid={uid}/></> :
       <Login />}
     </div>
+    </oddsContext.Provider >
   )
 }
 

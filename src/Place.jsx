@@ -4,33 +4,31 @@ import { db } from "./firebase"
 import { collection, addDoc } from "firebase/firestore";
 import { getFirestore, doc, getDoc } from "firebase/firestore";
 
-
 function Place({uid}) {
     const [open, setOpen] = useState({hot:false, cold:false, vhot:false, vcold:false})
-    const [data, setData] = useState()
     const [sammiches, setSammiches] = useState([
-        {name: "Meebball", odds:100, wager:0, payout:0},
-        {name: "Chimken", odds:100, wager:0, payout:0},
-        {name: "Gramndma Spetchal", odds:100, wager:0, payout:0},
-        {name: "Rozt bif", odds:100, wager:0, payout:0}
+        {name: "Meebball", wager:0, payout:0},
+        {name: "Chimken", wager:0, payout:0},
+        {name: "Gramndma Spetchal", wager:0, payout:0},
+        {name: "Rozt bif", wager:0, payout:0}
     ])
     const [csammiches, setCsammiches] = useState([
-        {name: "Meebball", odds:100, wager:0, payout:0},
-        {name: "Chimken", odds:100, wager:0, payout:0},
-        {name: "Gramndma Spetchal", odds:100, wager:0, payout:0},
-        {name: "Rozt bif", odds:100, wager:0, payout:0}
+        {name: "Meebball", wager:0, payout:0},
+        {name: "Chimken", wager:0, payout:0},
+        {name: "Gramndma Spetchal", wager:0, payout:0},
+        {name: "Rozt bif", wager:0, payout:0}
     ])
     const [vsammiches, setVsammiches] = useState([
-        {name: "Meebball", odds:100, wager:0, payout:0},
-        {name: "Chimken", odds:100, wager:0, payout:0},
-        {name: "Gramndma Spetchal", odds:100, wager:0, payout:0},
-        {name: "Rozt bif", odds:100, wager:0, payout:0}
+        {name: "Meebball", wager:0, payout:0},
+        {name: "Chimken",  wager:0, payout:0},
+        {name: "Gramndma Spetchal", wager:0, payout:0},
+        {name: "Rozt bif", wager:0, payout:0}
     ])
     const [cvsammiches, setCvsammiches] = useState([
-        {name: "Meebball", odds:100, wager:0, payout:0},
-        {name: "Chimken", odds:100, wager:0, payout:0},
-        {name: "Gramndma Spetchal", odds:100, wager:0, payout:0},
-        {name: "Rozt bif", odds:100, wager:0, payout:0}
+        {name: "Meebball", wager:0, payout:0},
+        {name: "Chimken", wager:0, payout:0},
+        {name: "Gramndma Spetchal", wager:0, payout:0},
+        {name: "Rozt bif", wager:0, payout:0}
     ])
 
     useEffect(() => {
@@ -43,18 +41,6 @@ function Place({uid}) {
                 copy[key].payout = docSnapshot.data()[key].payout
             }
         }})
-        
-        docRef = doc(db, `dailyTotals`, '9-7-2024')
-        getDoc(docRef).then((docSnapshot) => {
-            if (docSnapshot.exists()) {
-                let tot = docSnapshot.data().hot.total
-                sammiches.forEach((s, i) => {
-                    copy[i].odds = docSnapshot.data().hot[i] * 100 / tot
-                })
-                
-                setData(docSnapshot.data())
-            }
-        })
 
         setSammiches(copy);
         
@@ -103,28 +89,28 @@ function Place({uid}) {
                 setOpen(copy)
             }} style={{fontWeight: "bold", background:"rgb(207 226 243)", width: w, textAlign:"center", fontSize:"20px", margin:"4px 0", color:"white"}}>
                 Hot Sammies</div>
-            {open.hot ? <Category uid={uid} data={data} cat={"hot"} sammiches={sammiches} setSammiches={setSammiches}/> : null}
+            {open.hot ? <Category uid={uid} cat={"hot"} sammiches={sammiches} setSammiches={setSammiches}/> : null}
             <div onClick={() => {
                 let copy = {...open}
                 copy.cold = !open.cold
                 setOpen(copy)
             }} style={{fontWeight: "bold", background:"rgb(207 226 243)", width:w, textAlign:"center", fontSize:"20px", margin:"4px 0", color:"white"}}>
                 Cold Sammies</div>
-            {open.cold ? <Category uid={uid} data={data} cat= {"cold"} sammiches={csammiches} setSammiches={setCsammiches}/> : null}
+            {open.cold ? <Category uid={uid} cat= {"cold"} sammiches={csammiches} setSammiches={setCsammiches}/> : null}
             <div onClick={() => {
                 let copy = {...open}
                 copy.vhot = !open.vhot
                 setOpen(copy)
             }} style={{fontWeight: "bold", background:"rgb(207 226 243)", width:w, textAlign:"center", fontSize:"20px", margin:"4px 0", color:"white"}}>
                 Icky Sammies</div>
-            {open.vhot ? <Category uid={uid} data={data} cat={"vhot"} sammiches={vsammiches} setSammiches={setVsammiches}/> : null}
+            {open.vhot ? <Category uid={uid} cat={"vhot"} sammiches={vsammiches} setSammiches={setVsammiches}/> : null}
             <div onClick={() => {
                 let copy = {...open}
                 copy.vcold = !open.vcold
                 setOpen(copy)
             }} style={{fontWeight: "bold", background:"rgb(207 226 243)", width:w, textAlign:"center", fontSize:"20px", margin:"4px 0", color:"white"}}>
                 Cold Icky Sammies</div>
-            {open.vcold ? <Category uid={uid} data={data} cat={"vcold"} sammiches={cvsammiches} setSammiches={setCvsammiches}/> : null}
+            {open.vcold ? <Category uid={uid} cat={"vcold"} sammiches={cvsammiches} setSammiches={setCvsammiches}/> : null}
         </>
     )
 }
