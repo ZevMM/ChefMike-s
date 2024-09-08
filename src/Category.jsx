@@ -11,7 +11,7 @@ import { oddsContext } from "./App"
                         }}type="number" min={0} />
 */
 
-function Category({uid, cat, sammiches, setSammiches, tokens}) {
+function Category({uid, cat, sammiches, setSammiches, tokens, setTokens}) {
     const [popup, setPopup] = useState(false)
     const [cur, setCur] = useState(0)
     const [wager, setWager] = useState(0)
@@ -31,6 +31,12 @@ function Category({uid, cat, sammiches, setSammiches, tokens}) {
             method: 'GET',
             mode: 'no-cors'
         })
+        let copy = structuredClone(sammiches)
+        copy[cur].wager += parseInt(wager)
+        copy[cur].payout += parseInt(payout)
+        setSammiches(copy)
+        setPopup(false)
+        setTokens(tokens - wager)
     
     }
 
@@ -45,7 +51,7 @@ function Category({uid, cat, sammiches, setSammiches, tokens}) {
                 <input className="popup" type="number" min={0} value={wager} onChange={(e) => {setWager(e.target.value)
                     setPayout(fancyMath(e.target.value))
                 }}/>
-                <input className="popup" type = "button" value={`Bet to win $${payout.toFixed(2)}`}  style={{marginTop:"20px", fontSize:"15px", background:"black", color:"white", border:"none", borderRadius:"10px", padding:"10px"}}
+                <input className="popup" type = "button" value={`Bet to win ${payout.toFixed(2)}🪙`}  style={{marginTop:"20px", fontSize:"15px", background:"black", color:"white", border:"none", borderRadius:"10px", padding:"10px"}}
                 onClick={() => LockIn()}/>
                 <input className="popup" type = "button" value={`Cancel`}  style={{marginTop:"20px", fontSize:"15px", border:"1px solid black", color:"black", border:"none", borderRadius:"10px", padding:"10px"}}
                 onClick={() => setPopup(false)}/>

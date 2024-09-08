@@ -4,7 +4,19 @@ import { db } from "./firebase"
 import { collection, addDoc } from "firebase/firestore";
 import { getFirestore, doc, getDoc } from "firebase/firestore";
 
-function Place({uid}) {
+var currentDate = new Date(
+    (new Date()).toLocaleString(
+        'en-US',
+        { timeZone: 'America/New_York' }
+    )
+  )
+currentDate = new Date(currentDate.getTime() + 24 * 60 * 60 * 1000)
+var day = currentDate.getDate()
+var month = currentDate.getMonth() + 1
+var year = currentDate.getFullYear()
+const date = `${month}-${day}-${year}`
+
+function Place({uid, tokens, setTokens}) {
     const [open, setOpen] = useState({hot:false, cold:false, vhot:false, vcold:false})
     const [sammiches, setSammiches] = useState([
         {name: "Meebball", wager:0, payout:0},
@@ -33,7 +45,7 @@ function Place({uid}) {
 
     useEffect(() => {
         let copy = structuredClone(sammiches)
-        let docRef = doc(db, `users/${uid}/9-7-2024`, "hot")
+        let docRef = doc(db, `users/${uid}/${date}`, "hot")
         getDoc(docRef).then((docSnapshot) => {
           if (docSnapshot.exists()) {
             for (const key in docSnapshot.data()) {
@@ -46,7 +58,7 @@ function Place({uid}) {
         
 
         /*
-        docRef = doc(db, `users/${uid}/9-7-2024`, "cold")
+        docRef = doc(db, `users/${uid}/${date}`, "cold")
         getDoc(docRef).then((docSnapshot) => {
         if (docSnapshot.exists()) {
             // Document exists
@@ -56,7 +68,7 @@ function Place({uid}) {
             }
             setCsammiches(copy);
         }})
-        docRef = doc(db, `users/${uid}/9-7-2024`, "vhot")
+        docRef = doc(db, `users/${uid}/${date}`, "vhot")
         getDoc(docRef).then((docSnapshot) => {
         if (docSnapshot.exists()) {
             // Document exists
@@ -66,7 +78,7 @@ function Place({uid}) {
             }
             setVsammiches(copy);
         }})
-        docRef = doc(db, `users/${uid}/9-7-2024`, "vcold")
+        docRef = doc(db, `users/${uid}/${date}`, "vcold")
         getDoc(docRef).then((docSnapshot) => {
         if (docSnapshot.exists()) {
             // Document exists
@@ -89,7 +101,7 @@ function Place({uid}) {
                 setOpen(copy)
             }} style={{fontWeight: "bold", background:"rgb(207 226 243)", width: w, textAlign:"center", fontSize:"20px", margin:"4px 0", color:"white"}}>
                 Hot Sammies</div>
-            {open.hot ? <Category uid={uid} cat={"hot"} sammiches={sammiches} setSammiches={setSammiches}/> : null}
+            {open.hot ? <Category tokens={tokens} setTokens={setTokens} uid={uid} cat={"hot"} sammiches={sammiches} setSammiches={setSammiches}/> : null}
             <div onClick={() => {
                 let copy = {...open}
                 copy.cold = !open.cold

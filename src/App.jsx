@@ -11,6 +11,19 @@ import { createContext } from 'react'
 
 export const oddsContext = createContext(null)
 
+var currentDate = new Date(
+  (new Date()).toLocaleString(
+      'en-US',
+      { timeZone: 'America/New_York' }
+  )
+)
+
+currentDate = new Date(currentDate.getTime() + 24 * 60 * 60 * 1000)
+var day = currentDate.getDate()
+var month = currentDate.getMonth() + 1
+var year = currentDate.getFullYear()
+const date = `${month}-${day}-${year}`
+
 function App() {
   const [uid, setUID] = useState('')
   const [odds, setOdds] = useState({hot: {0:1, 1:0, 2:4, 3:1, total: 6},
@@ -40,18 +53,20 @@ function App() {
   }, [])
 
   useEffect( () => {
-  const oddsRef = ref(rtdb, '9-7-2024')
+  const oddsRef = ref(rtdb, date)
   onValue(oddsRef, (snapshot) => {
     setOdds(snapshot.val())
     console.log("snapshot", snapshot.val())
   })}, [])
 
+  const [tokens, setTokens] = useState(0)
+
   return (
     <oddsContext.Provider value={odds}>
     <div style={{width:"100%", height:"100%"}}>
       {uid ? 
-      <><Header uid={uid}/>
-      <Body uid={uid}/></> :
+      <><Header tokens={tokens} setTokens= {setTokens} uid={uid}/>
+      <Body tokens={tokens} setTokens= {setTokens} uid={uid}/></> :
       <Login />}
     </div>
     </oddsContext.Provider >

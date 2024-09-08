@@ -37,7 +37,7 @@ const goForward = (day, setDay) => {
   setDay(day + 1)
 }
 
-function Body({uid}) {
+function Body({uid, tokens, setTokens}) {
     const [day, setDay] = useState(1)
     const marketOpen = useContext(oddsContext)
 
@@ -46,7 +46,7 @@ function Body({uid}) {
         <h2>
           Predictions for {prettydate(day)}
         </h2>
-        {marketOpen ? <Place uid = {uid}/> : "Market is closed"}
+        {marketOpen ? <Place tokens={tokens} setTokens={setTokens} uid = {uid}/> : "Market is closed"}
         
       </div>
     )

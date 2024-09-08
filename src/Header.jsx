@@ -4,8 +4,8 @@ import { doc, getDoc } from "firebase/firestore";
 import { useState, useEffect } from 'react';
 import { Leaderboard, Help, Settings, Profile } from './Modals';
 
-function Header({uid}) {
-    const [tokens, setTokens] = useState(0)
+function Header({tokens, setTokens, uid}) {
+
     const [modals, setModals] = useState({leaderboard: false, help: false, settings: false, profile: false})
 
     //raise this up and pass it down to "Category"
