@@ -5,7 +5,7 @@ import {initializeApp} from "firebase-admin/app";
 
 import {onRequest} from "firebase-functions/v2/https";
 import logger from "firebase-functions/logger";
-import {getFirestore} from "firebase-admin/firestore";
+import {getFirestore, FieldValue} from "firebase-admin/firestore";
 import { getDatabase } from "firebase-admin/database";
 
 initializeApp();
@@ -16,7 +16,7 @@ put correct answer in between spaces
 */
 
 export const score = onRequest(async (request, response) => {
-    let correct = JSON.parse(request.query.data)
+    let data = JSON.parse(request.query.data)
     const collectionRef = getFirestore().collection('users')
     const snapshot = await collectionRef.get()
 
@@ -31,15 +31,74 @@ export const score = onRequest(async (request, response) => {
     var year = currentDate.getFullYear()
     const date = `${month}-${day}-${year}`
 
-    snapshot.forEach(async doc => {
-        const guessRef = collectionRef.doc(doc.id).collection(date).doc('hot')
-        const hot = await guessRef.get()
-        collectionRef.doc(doc.id).update({tokens: doc.data().tokens + hot.data()[correct].payout})
-    })
+    for (const key in data) {
+        console.log(key)
+        snapshot.forEach(async doc => {
+            
+            const guessRef = collectionRef.doc(doc.id).collection(date).doc(key)
+            const hot = await guessRef.get()
+            console.log("here")
+            if (hot.exists) {
+            console.log(hot.data())
+            collectionRef.doc(doc.id).update({tokens: FieldValue.increment(hot.data()[data[key]].payout)})
+            }
+        })
+    }
+
+
     response.send('done')
 
 })
 
+
+export const openMarkets = onRequest(async (request, response) => {
+    var currentDate = new Date(
+        (new Date()).toLocaleString(
+            'en-US',
+            { timeZone: 'America/New_York' }
+        )
+      )
+    currentDate = new Date(currentDate.getTime() + 24 * 60 * 60 * 1000)
+    var day = currentDate.getDate()
+    var month = currentDate.getMonth() + 1
+    var year = currentDate.getFullYear()
+    const date = `${month}-${day}-${year}`
+    
+    const db = getDatabase();
+    const newRef = db.ref(date)
+    let start = 10
+    newRef.set({'hot' : {
+        0 : start,
+        1 : start,
+        2 : start,
+        3 : start,
+        total : start * 4
+    },
+    'cold' : {
+        0 : start,
+        1 : start,
+        2 : start,
+        3 : start,
+        total : start * 4
+    },
+    'vhot' : {
+        0 : start,
+        1 : start,
+        2 : start,
+        3 : start,
+        total : start * 4
+    },
+    'vcold' : {
+        0 : start,
+        1 : start,
+        2 : start,
+        3 : start,
+        total : start * 4
+    }
+    })
+    response.send("done!")
+    
+})
 
 
 export const placeBet = onRequest(async (request, response) => {
@@ -51,7 +110,8 @@ export const placeBet = onRequest(async (request, response) => {
         response.send("insufficient funds")
         return
     }
-    tokenRef.update({tokens : user.data().tokens - data.wager})
+    tokenRef.update({tokens : FieldValue.increment(-data.wager)})
+    response.send("done!");
 
     var currentDate = new Date(
         (new Date()).toLocaleString(
@@ -74,7 +134,7 @@ export const placeBet = onRequest(async (request, response) => {
         userRef.set({0 : {payout: 0, wager: 0}, 1: {payout: 0, wager: 0}, 2: {payout: 0, wager: 0}, 3: {payout: 0, wager: 0}})
         update = {[data.cur] : {payout : data.payout, wager: data.wager}}
     } else {
-        update = {[data.cur] : {payout : doc.data()[data.cur].payout + data.payout, wager: doc.data()[data.cur].wager + data.wager}}
+        update = {[data.cur] : {payout : FieldValue.increment(data.payout), wager: FieldValue.increment(data.wager)}}
     }
     await userRef.update(update);
 
@@ -89,7 +149,6 @@ export const placeBet = onRequest(async (request, response) => {
     return (current_value || 0) + data.wager;
     });
 
-    response.send("done!");
 });
 
 
@@ -103,6 +162,6 @@ export const onLogin = onRequest(async (request, response) => {
         response.send("please don't try to break my app")
         return
     }
-    userRef.set({tokens:100})
+    userRef.set({tokens:100, username:data.username})
     response.send("done!");
 })

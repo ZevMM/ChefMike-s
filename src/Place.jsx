@@ -44,17 +44,57 @@ function Place({uid, tokens, setTokens}) {
     ])
 
     useEffect(() => {
-        let copy = structuredClone(sammiches)
+        
         let docRef = doc(db, `users/${uid}/${date}`, "hot")
         getDoc(docRef).then((docSnapshot) => {
           if (docSnapshot.exists()) {
+            let copy = structuredClone(sammiches)
             for (const key in docSnapshot.data()) {
                 copy[key].wager = docSnapshot.data()[key].wager
                 copy[key].payout = docSnapshot.data()[key].payout
             }
+            setSammiches(copy);
         }})
 
-        setSammiches(copy);
+        docRef = doc(db, `users/${uid}/${date}`, "cold")
+        getDoc(docRef).then((docSnapshot) => {
+            let copy = structuredClone(csammiches)
+            if (docSnapshot.exists()) {
+            for (const key in docSnapshot.data()) {
+                copy[key].wager = docSnapshot.data()[key].wager
+                copy[key].payout = docSnapshot.data()[key].payout
+            }
+            setCsammiches(copy);
+        }})
+
+    
+        
+        docRef = doc(db, `users/${uid}/${date}`, "vhot")
+        getDoc(docRef).then((docSnapshot) => {
+            let copy = structuredClone(vsammiches)
+            if (docSnapshot.exists()) {
+            for (const key in docSnapshot.data()) {
+                copy[key].wager = docSnapshot.data()[key].wager
+                copy[key].payout = docSnapshot.data()[key].payout
+            }
+            setVsammiches(copy);
+        }})
+
+        
+
+        
+        docRef = doc(db, `users/${uid}/${date}`, "vcold")
+        getDoc(docRef).then((docSnapshot) => {
+            let copy = structuredClone(cvsammiches)
+            if (docSnapshot.exists()) {
+            for (const key in docSnapshot.data()) {
+                copy[key].wager = docSnapshot.data()[key].wager
+                copy[key].payout = docSnapshot.data()[key].payout
+            }
+            setCvsammiches(copy);
+        }})
+
+        
         
 
         /*
@@ -108,21 +148,21 @@ function Place({uid, tokens, setTokens}) {
                 setOpen(copy)
             }} style={{fontWeight: "bold", background:"rgb(207 226 243)", width:w, textAlign:"center", fontSize:"20px", margin:"4px 0", color:"white"}}>
                 Cold Sammies</div>
-            {open.cold ? <Category uid={uid} cat= {"cold"} sammiches={csammiches} setSammiches={setCsammiches}/> : null}
+            {open.cold ? <Category tokens={tokens} setTokens={setTokens} uid={uid} cat= {"cold"} sammiches={csammiches} setSammiches={setCsammiches}/> : null}
             <div onClick={() => {
                 let copy = {...open}
                 copy.vhot = !open.vhot
                 setOpen(copy)
             }} style={{fontWeight: "bold", background:"rgb(207 226 243)", width:w, textAlign:"center", fontSize:"20px", margin:"4px 0", color:"white"}}>
                 Icky Sammies</div>
-            {open.vhot ? <Category uid={uid} cat={"vhot"} sammiches={vsammiches} setSammiches={setVsammiches}/> : null}
+            {open.vhot ? <Category tokens={tokens} setTokens={setTokens} uid={uid} cat={"vhot"} sammiches={vsammiches} setSammiches={setVsammiches}/> : null}
             <div onClick={() => {
                 let copy = {...open}
                 copy.vcold = !open.vcold
                 setOpen(copy)
             }} style={{fontWeight: "bold", background:"rgb(207 226 243)", width:w, textAlign:"center", fontSize:"20px", margin:"4px 0", color:"white"}}>
                 Cold Icky Sammies</div>
-            {open.vcold ? <Category uid={uid} cat={"vcold"} sammiches={cvsammiches} setSammiches={setCvsammiches}/> : null}
+            {open.vcold ? <Category tokens={tokens} setTokens={setTokens} uid={uid} cat={"vcold"} sammiches={cvsammiches} setSammiches={setCvsammiches}/> : null}
         </>
     )
 }
