@@ -19,28 +19,28 @@ const date = `${month}-${day}-${year}`
 function Place({uid, tokens, setTokens}) {
     const [open, setOpen] = useState({hot:false, cold:false, vhot:false, vcold:false})
     const [sammiches, setSammiches] = useState([
-        {name: "Meebball", wager:0, payout:0},
-        {name: "Chimken", wager:0, payout:0},
-        {name: "Gramndma Spetchal", wager:0, payout:0},
-        {name: "Rozt bif", wager:0, payout:0}
+        {name: "Meatball", wager:0, payout:0},
+        {name: "Chicken", wager:0, payout:0},
+        {name: "Grandma Special", wager:0, payout:0},
+        {name: "Roast beef", wager:0, payout:0}
     ])
     const [csammiches, setCsammiches] = useState([
-        {name: "Meebball", wager:0, payout:0},
-        {name: "Chimken", wager:0, payout:0},
-        {name: "Gramndma Spetchal", wager:0, payout:0},
-        {name: "Rozt bif", wager:0, payout:0}
+        {name: "Meatball", wager:0, payout:0},
+        {name: "Chicken", wager:0, payout:0},
+        {name: "Grandma Special", wager:0, payout:0},
+        {name: "Roast beef", wager:0, payout:0}
     ])
     const [vsammiches, setVsammiches] = useState([
-        {name: "Meebball", wager:0, payout:0},
-        {name: "Chimken",  wager:0, payout:0},
-        {name: "Gramndma Spetchal", wager:0, payout:0},
-        {name: "Rozt bif", wager:0, payout:0}
+        {name: "Meatball", wager:0, payout:0},
+        {name: "Chicken", wager:0, payout:0},
+        {name: "Grandma Special", wager:0, payout:0},
+        {name: "Roast beef", wager:0, payout:0}
     ])
     const [cvsammiches, setCvsammiches] = useState([
-        {name: "Meebball", wager:0, payout:0},
-        {name: "Chimken", wager:0, payout:0},
-        {name: "Gramndma Spetchal", wager:0, payout:0},
-        {name: "Rozt bif", wager:0, payout:0}
+        {name: "Meatball", wager:0, payout:0},
+        {name: "Chicken", wager:0, payout:0},
+        {name: "Grandma Special", wager:0, payout:0},
+        {name: "Roast beef", wager:0, payout:0}
     ])
 
     useEffect(() => {
@@ -140,28 +140,28 @@ function Place({uid, tokens, setTokens}) {
                 copy.hot = !open.hot
                 setOpen(copy)
             }} style={{fontWeight: "bold", background:"rgb(207 226 243)", width: w, textAlign:"center", fontSize:"20px", margin:"4px 0", color:"white"}}>
-                Hot Sammies</div>
+                Hot</div>
             {open.hot ? <Category tokens={tokens} setTokens={setTokens} uid={uid} cat={"hot"} sammiches={sammiches} setSammiches={setSammiches}/> : null}
             <div onClick={() => {
                 let copy = {...open}
                 copy.cold = !open.cold
                 setOpen(copy)
             }} style={{fontWeight: "bold", background:"rgb(207 226 243)", width:w, textAlign:"center", fontSize:"20px", margin:"4px 0", color:"white"}}>
-                Cold Sammies</div>
+                Cold</div>
             {open.cold ? <Category tokens={tokens} setTokens={setTokens} uid={uid} cat= {"cold"} sammiches={csammiches} setSammiches={setCsammiches}/> : null}
             <div onClick={() => {
                 let copy = {...open}
                 copy.vhot = !open.vhot
                 setOpen(copy)
             }} style={{fontWeight: "bold", background:"rgb(207 226 243)", width:w, textAlign:"center", fontSize:"20px", margin:"4px 0", color:"white"}}>
-                Icky Sammies</div>
+                Hot Vegan</div>
             {open.vhot ? <Category tokens={tokens} setTokens={setTokens} uid={uid} cat={"vhot"} sammiches={vsammiches} setSammiches={setVsammiches}/> : null}
             <div onClick={() => {
                 let copy = {...open}
                 copy.vcold = !open.vcold
                 setOpen(copy)
             }} style={{fontWeight: "bold", background:"rgb(207 226 243)", width:w, textAlign:"center", fontSize:"20px", margin:"4px 0", color:"white"}}>
-                Cold Icky Sammies</div>
+                Cold Vegan</div>
             {open.vcold ? <Category tokens={tokens} setTokens={setTokens} uid={uid} cat={"vcold"} sammiches={cvsammiches} setSammiches={setCvsammiches}/> : null}
         </>
     )
