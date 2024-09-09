@@ -102,17 +102,6 @@ export const openMarkets = onRequest(async (request, response) => {
 
 
 export const placeBet = onRequest(async (request, response) => {
-    let data = JSON.parse(request.query.data)
-
-    const tokenRef = getFirestore().collection('users').doc(data.uid)
-    let user = await tokenRef.get()
-    if (user.data().tokens < data.wager) {
-        response.send("insufficient funds")
-        return
-    }
-    tokenRef.update({tokens : FieldValue.increment(-data.wager)})
-    response.send("done!");
-
     var currentDate = new Date(
         (new Date()).toLocaleString(
             'en-US',
@@ -124,7 +113,37 @@ export const placeBet = onRequest(async (request, response) => {
     var month = currentDate.getMonth() + 1
     var year = currentDate.getFullYear()
     const date = `${month}-${day}-${year}`
-    console.log(date)
+    
+    let data = JSON.parse(request.query.data)
+    const db = getDatabase();
+    let total = null
+    let onCur = null
+    const totRef = db.ref(`${date}/${data.cat}/total`)
+    totRef.get().then((snapshot) => {
+        total = snapshot.val()
+    })
+    const upvotesRef = db.ref(`${date}/${data.cat}/${data.cur}`);
+    upvotesRef.get().then((snapshot) => {
+        onCur = snapshot.val()
+    })
+
+    let b = Math.log(data.wager + onCur)
+    let a = Math.log(onCur)
+    const payout = ((total - onCur) * (b - a)) + data.wager
+
+
+
+    const tokenRef = getFirestore().collection('users').doc(data.uid)
+    let user = await tokenRef.get()
+    if (user.data().tokens < data.wager) {
+        response.send("insufficient funds")
+        return
+    }
+    tokenRef.update({tokens : FieldValue.increment(-data.wager)})
+    response.send("done!");
+
+
+
 
     const userRef = getFirestore().collection('users').doc(data.uid).collection(date).doc(data.cat)
     console.log(data.cat)
@@ -132,19 +151,18 @@ export const placeBet = onRequest(async (request, response) => {
     let update;
     if (!doc.exists) {
         userRef.set({0 : {payout: 0, wager: 0}, 1: {payout: 0, wager: 0}, 2: {payout: 0, wager: 0}, 3: {payout: 0, wager: 0}})
-        update = {[data.cur] : {payout : data.payout, wager: data.wager}}
+        update = {[data.cur] : {payout : payout, wager: data.wager}}
     } else {
-        update = {[data.cur] : {payout : FieldValue.increment(data.payout), wager: FieldValue.increment(data.wager)}}
+        update = {[data.cur] : {payout : FieldValue.increment(payout), wager: FieldValue.increment(data.wager)}}
     }
     await userRef.update(update);
 
-    const db = getDatabase();
-    const upvotesRef = db.ref(`${date}/${data.cat}/${data.cur}`);
+    
+    
     upvotesRef.transaction((current_value) => {
     return (current_value || 0) + data.wager;
     });
 
-    const totRef = db.ref(`${date}/${data.cat}/total`);
     totRef.transaction((current_value) => {
     return (current_value || 0) + data.wager;
     });
