@@ -1,8 +1,7 @@
-# React + Vite
+# Chef Mike's Sportsbook
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+Prediction market for Columbia students to bet on the next day's Chef Mike's daily specials. Front end in react + vite, back end in firebase. 
 
-Currently, two official plugins are available:
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react/README.md) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+use zem2109@columbia.edu and password123 to try it out. 
+https://chef-mike-s-sportsbook-6a39a.web.app/ 
