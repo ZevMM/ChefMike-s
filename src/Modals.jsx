@@ -17,16 +17,16 @@ export const Leaderboard = ({setModal}) => {
             if (!sa) {
                 const userRef = collection(db, 'users')
                 const count = await getCountFromServer(userRef)
-                arr = Array(Math.floor((count.data().count - 1) / 1))
+                arr = Array(Math.floor((count.data().count - 1) / 15))
             } else {
                 arr = [...sa]
             }
 
             let q
             if (page == -1) {
-                q = query(collection(db, "users"), orderBy("tokens", "desc"), limit(1) );
+                q = query(collection(db, "users"), orderBy("tokens", "desc"), limit(15) );
             } else {
-                q = query(collection(db, "users"), orderBy("tokens", "desc"), startAfter(arr[page]), limit(1) );
+                q = query(collection(db, "users"), orderBy("tokens", "desc"), startAfter(arr[page]), limit(15) );
             }
             
             let mylist = []
@@ -50,7 +50,7 @@ export const Leaderboard = ({setModal}) => {
 
     
     return (
-        <div className="modal" style= {{ top: "3%", left:"50%", transform: "translateX(-50%)", WebkitTransform: "translateX(-50%)", padding: "10px", display:"flex", flexDirection:"column", position:"absolute", zIndex:"5", width:w, height:"25%", background:"white", borderRadius:"5px", boxShadow:"0 0 5px #888888", justifyContent:"space-between"}}
+        <div className="modal" style= {{ top: "3%", left:"50%", transform: "translateX(-50%)", WebkitTransform: "translateX(-50%)", padding: "10px", display:"flex", flexDirection:"column", position:"absolute", zIndex:"5", width:w, height:"50%", background:"white", borderRadius:"5px", boxShadow:"0 0 5px #888888", justifyContent:"space-between"}}
         onBlur={(e) => {
             if (e.relatedTarget && e.relatedTarget.className == "modal") {
                 return
@@ -73,9 +73,9 @@ export const Leaderboard = ({setModal}) => {
                 {data.map((d, i) => {
                     return (
                         <tr>
-                        <td> {i + 1 + (1) * (page + 1)} </td>
+                        <td> {i + 1 + (15) * (page + 1)} </td>
                         <td> {d.name} </td>
-                        <td> {d.tokens} </td>
+                        <td> {d.tokens.toFixed(2)} </td>
                         </tr>
                     )
                 })}
@@ -118,7 +118,7 @@ export const Help = ({setModal}) => {
 export const Profile = ({setModal}) => {
     const pw = window.screen.width > 500 ? "200px" : "40%"
     return (
-        <div className="modal" style= {{ top: "9%", transform: "translateX(-80%)", WebkitTransform: "translateX(-80%)", padding: "10px", display:"flex", flexDirection:"column", position:"absolute", zIndex:"5", width:pw, height:"5%", background:"white", borderRadius:"5px", boxShadow:"0 0 5px #888888", justifyContent:"center"}}
+        <div className="modal" style= {{ top: "9%", transform: "translateX(-80%)", WebkitTransform: "translateX(-80%)", padding: "10px", display:"flex", flexDirection:"column", position:"absolute", zIndex:"5", width:pw,  background:"white", borderRadius:"5px", boxShadow:"0 0 5px #888888", justifyContent:"center"}}
         onBlur={(e) => {
             if (e.relatedTarget && e.relatedTarget.className == "modal") {
                 return
@@ -126,6 +126,7 @@ export const Profile = ({setModal}) => {
             setModal({leaderboard: false, help: false, settings: false, profile: false})}}
         tabIndex={-1}>
             <input className="modal" type="button" style={{borderRadius: "10px", border:"none", padding:"5px"}} value="Sign out" onClick={() => signOut(auth)}/>
+            <div style={{fontSize:"small"}}><em>Reach 150 tokens for custom username</em></div>
         </div>
     )
 }

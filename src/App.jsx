@@ -52,10 +52,12 @@ function App() {
 
   useEffect(()=>{
     onAuthStateChanged(auth, (user) => {
-        if (user) {
+        if (user && auth?.currentUser?.emailVerified) {
           setUID(user.uid)
           onLogin(user.uid, user.email)
           setEmailVer(auth.currentUser.emailVerified)
+        } else if (user) {
+          setUID(user.uid)
         } else {
           setUID('')
         }

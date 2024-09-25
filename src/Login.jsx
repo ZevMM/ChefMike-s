@@ -26,7 +26,7 @@ export function Login() {
     const [password, setPassword] = useState("")
     const [err, setErr] = useState("")
     return (
-        <div style={{background: "rgb(207 226 243)", width:"100%", height:"100%", display:"flex", justifyContent:"center", alignItems:"center", flexDirection:"column"}}>
+        <div style={{background: "rgb(207, 226, 243)", width:"100%", height:"100%", display:"flex", justifyContent:"center", alignItems:"center", flexDirection:"column"}}>
             
             <h1 style={{width:w, textAlign:"center", marginBottom:"0"}}>Will you be the ultimate sandwich predictor?</h1>
             <h1 style={{width:w, textAlign:"center", marginBottom:"40px"}}>Prove your skills. Attain everlasting glory.</h1>
@@ -45,7 +45,7 @@ export function Verify({setEmailVer}) {
     sendEmailVerification(auth.currentUser)
 
     return (
-        <div style={{background: "rgb(207 226 243)", width:"100%", height:"100%", display:"flex", justifyContent:"center", alignItems:"center", flexDirection:"column"}}>
+        <div style={{background: "rgb(207, 226, 243)", width:"100%", height:"100%", display:"flex", justifyContent:"center", alignItems:"center", flexDirection:"column"}}>
             
             <h3 style={{width:w, textAlign:"center", marginBottom:"0"}}>You have been emailed a verification link. Please click it to activate your account. </h3>
             <h3 style={{width:w, textAlign:"center", fontSize:"25pt"}}><b> You must refresh the page after clicking the link </b></h3>

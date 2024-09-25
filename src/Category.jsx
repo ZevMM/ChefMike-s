@@ -62,7 +62,7 @@ function Category({uid, cat, sammiches, setSammiches, tokens, setTokens}) {
                 <input className="popup" type = "button" value={`Cancel`}  style={{marginTop:"20px", fontSize:"15px", color:"black", border:"none", borderRadius:"10px", padding:"10px"}}
                 onClick={() => setPopup(false)}/>
             </div>) : null}
-        <div style={{maxHeight:"100px", overflowY:"auto", width:w}}>
+        <div style={{maxHeight:"250px", overflowY:"auto", width:w}}>
 
             <table style={{width: "100%"}}>
                 <thead>
